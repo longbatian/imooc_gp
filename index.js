@@ -1,4 +1,5 @@
 import { AppRegistry } from 'react-native';
 import App from './App';
 
-AppRegistry.registerComponent('imooc_gp', () => App);
+import setup from './js/pages/setup';
+AppRegistry.registerComponent('imooc_gp', () => setup);
