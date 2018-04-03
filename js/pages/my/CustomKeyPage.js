@@ -22,7 +22,8 @@ export default class CustomKeyPage extends Component{
     render(){
         return <View>
              <NavigationBar
-             title={'自定义标签'}
+                title={'自定义标签'}
+                leftButton={}
              />
             <Text style={styles.tips}>自定义标签</Text>
         </View>
