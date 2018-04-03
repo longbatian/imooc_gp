@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 // import ScrollableTabView,{ScrollableTabBar} from 'react-native-scrollable-tab-view';
 import ScrollableTabView,{ScrollableTabBar,DefaultTabBar}from 'react-native-scrollable-tab-view';
-import {Navigator} from 'react-native-deprecated-custom-components'
+import {Navigator} from 'react-native-deprecated-custom-components';
 import NavigationBar from '../common/NavigationBar';
 import RepositoryCell from '../common/RepositoryCell'
 

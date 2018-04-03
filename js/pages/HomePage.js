@@ -20,12 +20,12 @@ import TabNavigator from 'react-native-tab-navigator';
 // import ListViewTest from './ListViewTest';
 import AsyncStorageTest from './../../AsyncStorageTest';
 import PopularPage from './PopularPage'
-
+import MyPage from './my/MyPage';
 export default class HomePage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedTab: 'tb_trending',
+            selectedTab: 'tb_my',
         }
     }
 
@@ -83,27 +83,10 @@ export default class HomePage extends Component {
 
                             onPress={() => this.setState({selectedTab: 'tb_my'})}>
 
-                            <Text>4</Text>
-
+                            <MyPage {...this.props}></MyPage>
                         </TabNavigator.Item>
                     </TabNavigator>
                 }
-
-
-                {/*{
-                 <Navigator
-                 initialRoute={{
-                 component: Boy
-                 }}
-                 renderScene={(router, navigator) => {
-                 let Component = router.component;
-                 return <Component navigator={navigator} {...router.params}/>
-                 }}>
-
-                 </Navigator>}
-                 <Boy/>*/}
-                {/*<ListViewTest/>*/}
-                {/*<FetchTest/>*/}
             </View>
         );
     }
