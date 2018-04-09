@@ -24,7 +24,6 @@ export default class LanguageDao{
                         }catch(e){
                             reject(e)
                         }
-
                     }else{
                         var data=this.flag===FlAG_LANGUAGE.flag_key?keys:null;
                         this.save(data);

@@ -18,6 +18,9 @@ import RepositoryCell from '../common/RepositoryCell'
 
 import HomePage from './HomePage';
 import DataRepository from '../expand/dao/DataRepository'
+import LanguageDao,{FlAG_LANGUAGE} from '../expand/dao/LanguageDao';
+
+
 // https://api.github.com/search/repositories?q=ios&sort=stars
 const URL = 'https://api.github.com/search/repositories?q=';
 const QUERY_STR = '&sort=stats';
@@ -26,13 +29,27 @@ const QUERY_STR = '&sort=stats';
 export default class PopularPage extends Component {
     constructor(props) {
         super(props);
+        this.languageDao=new LanguageDao(FlAG_LANGUAGE.flag_key);
         this.DataRepository = new DataRepository();
         this.state = {
-            result: '',
+           languages:[]
 
         }
     };
-
+    componentDidMount(){
+        this.loadData();
+    }
+    loadData(){
+        this.languageDao.fetch()
+            .then(result=> {
+                this.setState({
+                    languages: result
+                })
+            })
+            .catch(error=> {
+                alert(error)
+            })
+    }
     onLoad() {
         let url = this.genUrl(this.text);
         this.DataRepository.fetchNetRepository(url)
@@ -53,6 +70,20 @@ export default class PopularPage extends Component {
     }
 
     render() {
+        let content=this.state.languages.length>0?    <ScrollableTabView
+            tabBarBackgroundColor="#2196F3"
+            tabBarActiveTextColor="white"
+            tabBarInactiveTextColor="mintcream"
+            tabBarUnderlineStyle={{backgroundColor:'#e7e7e7',height:2}}
+            renderTabBar={() => <ScrollableTabBar/>}
+        >
+            {this.state.languages.map((result,i,arr)=>{
+                let lan=arr[i];
+                return lan.checked?<PopularTab key={i} tabLabel={lan.name}>
+
+                </PopularTab>:null;
+            })}
+        </ScrollableTabView>:null;
         return (
             <View style={styles.container}>
                 <NavigationBar
@@ -61,19 +92,7 @@ export default class PopularPage extends Component {
                         backgroundColor:'#2196F3'
                     }}
                 />
-                <ScrollableTabView
-                    tabBarBackgroundColor="#2196F3"
-                    tabBarActiveTextColor="white"
-                    tabBarInactiveTextColor="mintcream"
-                    tabBarUnderlineStyle={{backgroundColor:'#e7e7e7',height:2}}
-                    renderTabBar={() => <ScrollableTabBar/>}
-                >
-                    <PopularTab tabLabel="Java">java</PopularTab>
-                    <PopularTab tabLabel="IOS">IOS</PopularTab>
-                    <PopularTab tabLabel="Android">Android</PopularTab>
-                    <PopularTab tabLabel="Javascript">js</PopularTab>
-                </ScrollableTabView
->
+                {content}
             </View>
         )
     }
