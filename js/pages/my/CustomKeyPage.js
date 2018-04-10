@@ -131,7 +131,7 @@ export default class CustomKeyPage extends Component {
             <View style={{margin: 10}}>
                 <Text style={styles.title}>保存</Text>
             </View>
-        </TouchableOpacity>
+        </TouchableOpacity>;
         return <View style={styles.container}>
             <NavigationBar
                 title={'自定义标签'}
