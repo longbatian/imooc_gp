@@ -23,6 +23,7 @@ export default class CustomKeyPage extends Component {
         super(props);
         this.languageDao = new LanguageDao(FlAG_LANGUAGE.flag_key);
         this.changeValues=[];
+        this.isRemoveKey=this.props.isRemoveKey?true:false;
         this.state = {
             dataArray: []
         }
@@ -45,10 +46,12 @@ export default class CustomKeyPage extends Component {
     }
 
     onSave() {
-        this.props.navigator.pop();
         if(this.changeValues.length===0){
             this.props.navigator.pop();
             return;
+        }
+        for(let i=0,l=this.changeValues.length;i<l;i++){
+            ArrayUtils.remove(this.state.dataArray,this.changeValues[i])
         }
         this.languageDao.save(this.state.dataArray);
         this.props.navigator.pop();
@@ -86,17 +89,18 @@ export default class CustomKeyPage extends Component {
 
     }
     onClick(data){
-        data.checked=!data.checked;
+        if(!this.isRemoveKey)data.checked=!data.checked;
         ArrayUtils.updateArray(this.changeValues,data);
     }
     renderCheckbox(data) {
         let leftText = data.name;
+        let isChecked = this.isRemoveKey ? false : data.checked;
         return (
             <Checkbox
                 style={{flex:1,padding:10}}
                 onClick={()=>this.onClick(data)}
                 leftText={leftText}
-                isChecked={data.checked}
+                isChecked={isChecked}
                 checkedImage={<Image style={{tintColor:'#6495ED'}}
                     source={require('./img/ic_check_box.png')}
                 />}
@@ -125,18 +129,13 @@ export default class CustomKeyPage extends Component {
         )
     }
     render() {
-        let rightButton = <TouchableOpacity
-            onPress={()=>this.onSave()}
-        >
-            <View style={{margin: 10}}>
-                <Text style={styles.title}>保存</Text>
-            </View>
-        </TouchableOpacity>;
+        let title=this.isRemoveKey?'标签移除':'自定义标签';
+        let rightButtonTitle=this.isRemoveKey?'移除':'保存';
         return <View style={styles.container}>
             <NavigationBar
-                title={'自定义标签'}
+                title={title}
                 leftButton={ViewUtils.getLeftButton(()=>this.onBack())}
-                rightButton={rightButton}
+                rightButton={ViewUtils.getRightButton(rightButtonTitle,()=>this.onSave())}
             />
             <ScrollView>
                 {this.renderView()}

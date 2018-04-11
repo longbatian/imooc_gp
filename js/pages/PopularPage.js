@@ -114,7 +114,8 @@ class PopularTab extends Component{
         this.setState({
             isLoading:true
         })
-        let url = URL+this.props.tabLabel+QUERY_STR;
+        // let url = URL+this.props.tabLabel+QUERY_STR;
+        let url = this.genFetchUrl(this.props.tabLabel);
         this.DataRepository.fetchNetRepository(url)
             .then(result=> {
                 this.setState({

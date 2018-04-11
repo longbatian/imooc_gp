@@ -8,6 +8,7 @@ import {
     TouchableOpacity,
     Image,
     StyleSheet,
+
 } from 'react-native';
 
 export default class ViewUtils{
@@ -17,6 +18,14 @@ export default class ViewUtils{
             onPress={callBack}
         >
             <Image style={{width:22,height:22}} source={require('../../res/images/ic_arrow_back_white_36pt.png')}/>
+        </TouchableOpacity>
+    }
+    static getRightButton(title,callBack){
+        return <TouchableOpacity
+            style={{alignItems:'center',padding:8}}
+            onPress={callBack}
+        >
+            <Text style={{fontSize: 20, color: '#FFFFFF',}}>{title}</Text>
         </TouchableOpacity>
     }
 }

@@ -47,7 +47,7 @@ export default class MyPage extends Component{
                           component:CustomKeyPage,
                           params:{
                               ...this.props,
-                              isRemovekey:true
+                              isRemoveKey:true
                           }
                       })
                   }}
