@@ -8,7 +8,8 @@ import {
     StyleSheet,
     TextInput,
     ListView,
-    RefreshControl
+    RefreshControl,
+    DeviceEventEmitter
 } from 'react-native';
 // import ScrollableTabView,{ScrollableTabBar} from 'react-native-scrollable-tab-view';
 import ScrollableTabView,{ScrollableTabBar,DefaultTabBar}from 'react-native-scrollable-tab-view';
@@ -30,7 +31,7 @@ export default class PopularPage extends Component {
     constructor(props) {
         super(props);
         this.languageDao=new LanguageDao(FlAG_LANGUAGE.flag_key);
-        this.DataRepository = new DataRepository();
+        this.dataRepository = new DataRepository();
         this.state = {
            languages:[]
 
@@ -52,7 +53,7 @@ export default class PopularPage extends Component {
     }
     onLoad() {
         let url = this.genUrl(this.text);
-        this.DataRepository.fetchNetRepository(url)
+        this.dataRepository.fetchNetRepository(url)
             .then(result=> {
                 this.setState({
                     result: JSON.stringify(result)
@@ -100,7 +101,7 @@ export default class PopularPage extends Component {
 class PopularTab extends Component{
     constructor(props) {
         super(props);
-        this.DataRepository = new DataRepository();
+        this.dataRepository = new DataRepository();
         this.state = {
             result: '',
             dataSource: new ListView.DataSource({rowHasChanged:(r1,r2)=>r1!==r2}),
@@ -116,12 +117,28 @@ class PopularTab extends Component{
         })
         // let url = URL+this.props.tabLabel+QUERY_STR;
         let url = this.genFetchUrl(this.props.tabLabel);
-        this.DataRepository.fetchNetRepository(url)
+        this.dataRepository
+            .fetchNetRepository(url)
             .then(result=> {
+                let items=result&&result.items?result.item:result?result:[];
                 this.setState({
-                    dataSource:this.state.dataSource.cloneWithRows(result.items),
+                    dataSource:this.state.dataSource.cloneWithRows(items),
                     isLoading:false,
-                })
+                });
+                if (result && result.update_date &&!this.dataRepository.checkData(result.update_date)){
+                    DeviceEventEmitter.emit('showToast','数据过时');
+                    return this.dataRepository.fetchNetRepository(url)
+                }else {
+                    alert(result.update_date)
+                    DeviceEventEmitter.emit('showToast','显示缓存数据');
+                }
+            })
+            .then(items=>{
+                if(!items||items.length===0)return;
+                this.setState({
+                    dataSource:this.state.dataSource.cloneWithRows(items),
+                });
+                DeviceEventEmitter.emit('showToast','显示网络数据');
             })
             .catch(error=> {
                 this.setState({
@@ -131,6 +148,9 @@ class PopularTab extends Component{
     }
     renderRow(data){
         return <RepositoryCell data={data}/>
+    }
+    genFetchUrl(url){
+        return URL+url+QUERY_STR;
     }
     render(){
         return <View style={styles.container}>

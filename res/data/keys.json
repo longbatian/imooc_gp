@@ -13,17 +13,17 @@
   {
     "path": "react-native",
     "name": "React Native",
-    "checked": true
+    "checked": false
   },
   {
     "path": "MySQL",
     "name": "MySQL",
-    "checked": false
+    "checked": true
   },
   {
     "path": " AngularJS",
     "name": " AngularJS",
-    "checked": false
+    "checked": true
   },
   {
     "path": " jQuery",
@@ -33,6 +33,7 @@
   {
     "path": " react",
     "name": " React",
-    "checked": true
+    "checked": false
   }
+
 ]
