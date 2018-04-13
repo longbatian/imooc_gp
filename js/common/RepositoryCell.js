@@ -12,8 +12,14 @@ import {
 } from 'react-native';
 
 export default class RepositoryCell extends Component{
+    constructor(props){
+        super(props);
+        this.state={}
+    }
     render(){
+        let data=this.props.data;
         return <TouchableOpacity
+                onPress={this.props.onSelect}
                 style={styles.container}
             >
                 <View style={styles.cell_container}>

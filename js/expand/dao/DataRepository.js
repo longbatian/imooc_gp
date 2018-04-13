@@ -10,25 +10,25 @@ export default class DataRepository {
         return new Promise((resolve, reject)=> {
             //    获取本地数据
             this.fetchLocalRepository(url)
-                .then(result=>{
-                    if(result){
+                .then(result=> {
+                    if (result) {
                         resolve(result);
-                    }else {
+                    } else {
                         this.fetchNetRepository(url)
-                            .then(result=>{
+                            .then(result=> {
                                 resolve(result);
                             })
-                            .catch(e=>{
+                            .catch(e=> {
                                 resolve(e)
                             })
                     }
                 })
-                .catch(e=>{
+                .catch(e=> {
                     this.fetchNetRepository(url)
-                        .then(result=>{
+                        .then(result=> {
                             resolve(result);
                         })
-                        .catch(e=>{
+                        .catch(e=> {
                             resolve(e)
                         })
                 })
@@ -42,14 +42,14 @@ export default class DataRepository {
      * */
     fetchLocalRepository(url) {
         return new Promise((resolve, reject)=> {
-            AsyncStorage.getItem(url,(error,result)=>{
-                if(!error){
-                    try{
+            AsyncStorage.getItem(url, (error, result)=> {
+                if (!error) {
+                    try {
                         resolve(JSON.parse(result));
-                    }catch(e){
+                    } catch (e) {
                         reject(e);
                     }
-                }else {
+                } else {
                     reject(error);
                 }
             })
@@ -63,7 +63,6 @@ export default class DataRepository {
                 .then(result=> {
                     if (!result) {
                         reject(new Error('responseData is null'));
-                        alert(2)
                         return;
                     }
                     resolve(result.items);
@@ -74,6 +73,7 @@ export default class DataRepository {
                 })
         })
     }
+
     /**
      *
      * 时间戳
@@ -81,9 +81,8 @@ export default class DataRepository {
      * */
     saveRepository(url, items, callBack) {
         if (!url || !items) return;
-
-        let wrapData = {items: items,update_date: new Date().getTime()};
-        AsyncStorage.setItem(url, JSON.stringify(wrapData),callBack);
+        let wrapData = {items: items, update_date: new Date().getTime()};
+        AsyncStorage.setItem(url, JSON.stringify(wrapData), callBack);
     }
 
     /*

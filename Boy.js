@@ -8,7 +8,8 @@ import {
     StyleSheet,
 } from 'react-native';
 import Girl from "./Girl";
-import NavigationBar from "./js/common/NavigationBar";
+import ScrollableTabView, {ScrollableTabBar, DefaultTabBar}from 'react-native-scrollable-tab-view';
+import {Navigator} from 'react-native-deprecated-custom-components';
 export default class Boy extends Component {
     constructor(props) {
         super(props);
@@ -50,36 +51,7 @@ export default class Boy extends Component {
         )
     }
 }
-{/*<Text style={styles.text} onPress={()=>{*/
-}
-{/*this.props.navigator.push({*/
-}
-{/*component:Gril,*/
-}
-{/*params:{*/
-}
-{/*word:'一枝玫瑰',*/
-}
-{/*onCallBack:(word)=>{*/
-}
-{/*this.setState({*/
-}
-{/*word:word*/
-}
-{/*})*/
-}
-{/*}*/
-}
-{/*}*/
-}
-{/*})*/
-}
-{/*}}>*/
-}
-{/*送女孩一直玫瑰*/
-}
-{/*</Text>*/
-}
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
