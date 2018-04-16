@@ -22,6 +22,8 @@ import AsyncStorageTest from './../../AsyncStorageTest';
 import PopularPage from './PopularPage'
 import MyPage from './my/MyPage';
 import WebViewTest from '../../WebViewTest';
+import TrendingTest from '../../TrendingTest';
+
 export default class HomePage extends Component {
     constructor(props) {
         super(props);
@@ -78,7 +80,7 @@ export default class HomePage extends Component {
                                                              source={require('../../res/images/ic_polular.png')}/>}
                             onPress={() => this.setState({selectedTab: 'tb_favorite'})}>
 
-                            <WebViewTest/>
+                            <TrendingTest/>
 
                         </TabNavigator.Item>
                         <TabNavigator.Item
@@ -92,7 +94,7 @@ export default class HomePage extends Component {
 
                             onPress={() => this.setState({selectedTab: 'tb_my'})}>
 
-                            <MyPage {...this.props}></MyPage>
+                            <MyPage {...this.props}/>
                         </TabNavigator.Item>
                     </TabNavigator>
                 <Toast ref={toast=>this.toast=toast}/>
