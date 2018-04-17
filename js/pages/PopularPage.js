@@ -18,7 +18,7 @@ import NavigationBar from '../common/NavigationBar';
 import RepositoryCell from '../common/RepositoryCell'
 import RepositoryDetail from './RepositoryDetail';
 import HomePage from './HomePage';
-import DataRepository from '../expand/dao/DataRepository';
+import DataRepository,{FLAG_STORAGE} from '../expand/dao/DataRepository';
 import LanguageDao, {FlAG_LANGUAGE} from '../expand/dao/LanguageDao';
 
 
@@ -103,7 +103,7 @@ export default class PopularPage extends Component {
 class PopularTab extends Component {
     constructor(props) {
         super(props);
-        this.dataRepository = new DataRepository();
+        this.dataRepository = new DataRepository(FLAG_STORAGE.flag_popular);
         this.state = {
             result: '',
             dataSource: new ListView.DataSource({rowHasChanged: (r1, r2)=>r1 !== r2}),

@@ -4,8 +4,24 @@
 import {
     AsyncStorage,
 } from 'react-native';
+import GitHubTrending from 'GitHubTrending';
+export var FLAG_STORAGE={flag_popular:'popular',flag_trending:'trending'};
 
 export default class DataRepository {
+    constructor(flag) {
+        this.flag = flag;
+        if (flag === FLAG_STORAGE.flag_trending)this.trending = new GitHubTrending();
+    }
+    /**
+     *
+     * 时间戳
+     *
+     * */
+    saveRepository(url, items, callBack) {
+        if (!url || !items) return;
+        let wrapData = {items: items, update_date: new Date().getTime()};
+        AsyncStorage.setItem(url, JSON.stringify(wrapData), callBack);
+    }
     fetchRepository(url) {
         return new Promise((resolve, reject)=> {
             //    获取本地数据
@@ -19,7 +35,7 @@ export default class DataRepository {
                                 resolve(result);
                             })
                             .catch(e=> {
-                                resolve(e)
+                                reject(e)
                             })
                     }
                 })
@@ -58,32 +74,37 @@ export default class DataRepository {
 
     fetchNetRepository(url) {
         return new Promise((resolve, reject)=> {
-            fetch(url)
-                .then(response=>response.json())
-                .then(result=> {
-                    if (!result) {
-                        reject(new Error('responseData is null'));
-                        return;
-                    }
-                    resolve(result.items);
-                    this.saveRepository(url, result.items)
-                })
-                .catch(error=> {
-                    reject(error);
-                })
+            if(this.flag===FLAG_STORAGE.flag_trending){
+                this.trending.fetchTrending(url)
+                    .then(result=>{
+                        if(!result){
+                            reject(new Error('responseData is null'));
+                            return;
+                        }
+                        this.saveRepository(url,result);
+                        resolve(result);
+                    })
+            }else{
+                fetch(url)
+                    .then(response=>response.json())
+                    .catch(error=> {
+                        reject(error);
+                    })
+                    .then(result=> {
+                        if (!result||!result.items) {
+                            reject(new Error('responseData is null'));
+                            return;
+                        }
+                        resolve(result.items);
+                        this.saveRepository(url, result.items)
+                    }).done();
+
+            }
+
         })
     }
 
-    /**
-     *
-     * 时间戳
-     *
-     * */
-    saveRepository(url, items, callBack) {
-        if (!url || !items) return;
-        let wrapData = {items: items, update_date: new Date().getTime()};
-        AsyncStorage.setItem(url, JSON.stringify(wrapData), callBack);
-    }
+
 
     /*
      *判断数据是否过时
