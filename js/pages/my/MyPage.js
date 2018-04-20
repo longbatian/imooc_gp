@@ -11,6 +11,7 @@ import {Navigator} from 'react-native-deprecated-custom-components';
 import NavigationBar from '../../common/NavigationBar';
 import CustomKeyPage from './CustomKeyPage';
 import SortKeyPage from './SortKeyPage';
+import {FlAG_LANGUAGE} from '../../expand/dao/LanguageDao';
 export default class MyPage extends Component{
     constructor(props) {
         super(props);
@@ -29,29 +30,59 @@ export default class MyPage extends Component{
                 onPress={()=>{
                     this.props.navigator.push({
                         component:CustomKeyPage,
-                        params:{...this.props}
+                        params:{
+                            ...this.props,
+                            flag:FlAG_LANGUAGE.flag_key
+                        }
                     })
                 }}
             >自定义标签 </Text>
             <Text style={styles.tips}
+                onPress={()=>{
+                    this.props.navigator.push({
+                        component:CustomKeyPage,
+                        params:{
+                            ...this.props,
+                            flag:FlAG_LANGUAGE.flag_language
+                        }
+                    })
+                }}
+            >自定义语言 </Text>
+            <Text style={styles.tips}
                   onPress={()=>{
                       this.props.navigator.push({
                           component:SortKeyPage,
-                          params:{...this.props}
+                          params:{
+                              ...this.props,
+                              flag:FlAG_LANGUAGE.flag_key
+                          }
                       })
                   }}
             >标签排序 </Text>
             <Text style={styles.tips}
                   onPress={()=>{
                       this.props.navigator.push({
+                          component:SortKeyPage,
+                          params:{
+                              ...this.props,
+                              flag:FlAG_LANGUAGE.flag_language
+                          }
+                      })
+                  }}
+            >语言排序 </Text>
+            <Text style={styles.tips}
+                  onPress={()=>{
+                      this.props.navigator.push({
                           component:CustomKeyPage,
                           params:{
                               ...this.props,
-                              isRemoveKey:true
+                              isRemoveKey:true,
+                              flag:FlAG_LANGUAGE.flag_key
                           }
                       })
                   }}
             >移除标签 </Text>
+
         </View>
     }
 }

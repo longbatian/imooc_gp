@@ -21,7 +21,7 @@ import ArrayUtils from '../../Util/ArrayUtils'
 export default class CustomKeyPage extends Component {
     constructor(props) {
         super(props);
-        this.languageDao = new LanguageDao(FlAG_LANGUAGE.flag_key);
+
         this.changeValues=[];
         this.isRemoveKey=this.props.isRemoveKey?true:false;
         this.state = {
@@ -30,6 +30,7 @@ export default class CustomKeyPage extends Component {
     };
 
     componentDidMount() {
+        this.languageDao=new LanguageDao(this.props.flag);
         this.loadData();
     }
 
@@ -133,6 +134,7 @@ export default class CustomKeyPage extends Component {
     render() {
         let title=this.isRemoveKey?'标签移除':'自定义标签';
         let rightButtonTitle=this.isRemoveKey?'移除':'保存';
+        title=this.props.flag===FlAG_LANGUAGE.flag_language?'自定义语言':title;
         return <View style={styles.container}>
             <NavigationBar
                 title={title}
