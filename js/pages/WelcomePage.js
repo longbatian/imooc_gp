@@ -9,8 +9,8 @@ import {
 } from 'react-native';
 import {Navigator} from 'react-native-deprecated-custom-components';
 import NavigationBar from '../common/NavigationBar';
-import HomePage from './HomePage';
-
+// import HomePage from './HomePage';
+// import Boy from '../../ListViewTest';
 export default class WelcomePage extends Component{
     constructor(props) {
         super(props);
@@ -19,11 +19,11 @@ export default class WelcomePage extends Component{
         }
     };
     componentDidMount(){
-        setTimeout(()=>{
-            this.props.navigator.resetTo({
-                component:HomePage
-            })
-        },600);
+        // setTimeout(()=>{
+        //     this.props.navigator.resetTo({
+        //         component:Boy
+        //     })
+        // },600);
         // setTimeout(() => {
         //     this.setState({
         //         tabShow: true
