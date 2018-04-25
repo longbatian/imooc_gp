@@ -162,11 +162,11 @@ class PopularTab extends Component {
             .then(result=> {
                 this.items = result && result.items ? result.items : result ? result : [];
                 this.getFavoriteKeys();
-                if (result && result.update_date && !this.dataRepository.checkData(result.update_date)) {
-                    // DeviceEventEmitter.emit('showToast', '数据过时');
+                if (!this.items&&result && result.update_date && !this.dataRepository.checkData(result.update_date)) {
+                    DeviceEventEmitter.emit('showToast', '数据过时');
                     return this.dataRepository.fetchNetRepository(url)
                 } else {
-                    // DeviceEventEmitter.emit('showToast', '显示缓存数据');
+                    DeviceEventEmitter.emit('showToast', '显示缓存数据');
                 }
             })
             .then(items=> {
@@ -190,6 +190,8 @@ class PopularTab extends Component {
             component: RepositoryDetail,
             params: {
                 projectModel: projectModel,
+                parentComponent:this,
+                flag:FLAG_STORAGE.flag_popular,
                 ...this.props
             }
 
